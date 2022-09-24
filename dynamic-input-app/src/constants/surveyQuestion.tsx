@@ -1,4 +1,4 @@
-export interface Survey {
+export interface ISurvey {
   id: string;
   title: string;
   steps: {
@@ -10,7 +10,7 @@ export interface Survey {
   }[][];
 }
 
-export interface SurveyStep {
+export interface ISurveyStep {
   type: string;
   label: string;
   validation?: {
@@ -18,7 +18,7 @@ export interface SurveyStep {
   };
 }
 
-const fetchData: Survey[] = [
+const fetchQuestion: ISurvey[] = [
   {
     id: "1",
     title: "백엔드 선호도 조사",
@@ -123,4 +123,4 @@ const fetchData: Survey[] = [
   },
 ];
 
-export default fetchData;
+export default fetchQuestion;
