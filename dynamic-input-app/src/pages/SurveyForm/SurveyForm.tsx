@@ -12,11 +12,13 @@ const MoveButton = ({
   leng,
   onClickPrev,
   onClickNext,
+  onClickSubmit,
 }: {
   idx: number;
   leng: number;
   onClickPrev: any;
   onClickNext: any;
+  onClickSubmit: any;
 }) => (
   <>
     {idx !== 0 && (
@@ -29,7 +31,9 @@ const MoveButton = ({
         다음
       </button>
     ) : (
-      <button type="submit">제출</button>
+      <button type="submit" onClick={onClickSubmit}>
+        제출
+      </button>
     )}
   </>
 );
@@ -39,8 +43,6 @@ const SurveyForm = () => {
   const [surveyQuestion, setSurveyQuestion] = useState<ISurvey>();
   const [formData, setFormData] = useState<IForm>({});
   const location = useLocation();
-
-  console.log(surveyQuestion);
 
   useEffect(() => {
     const url: string = location.pathname.substr(-1);
@@ -55,6 +57,18 @@ const SurveyForm = () => {
     setPage((prev) => prev - 1);
   };
 
+  const saveLocalStorage = (key: string): void => {
+    const newLocalData: IForm[] = [];
+    const localData = JSON.parse(localStorage.getItem(key) || "[]");
+
+    if (localData) {
+      newLocalData.push(...JSON.parse(localStorage.getItem(key) || "[]"));
+    }
+
+    newLocalData.push(formData);
+    localStorage.setItem(key, JSON.stringify(newLocalData));
+  };
+
   const onChageValue = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: string
@@ -64,8 +78,6 @@ const SurveyForm = () => {
       [key]: e.target.value,
     });
   };
-
-  console.log(formData);
 
   return (
     <div className={styles.SurveyForm}>
@@ -91,6 +103,9 @@ const SurveyForm = () => {
                     leng={surveyQuestion?.steps.length}
                     onClickPrev={movePrevQuestion}
                     onClickNext={moveNextQuestion}
+                    onClickSubmit={() =>
+                      saveLocalStorage(surveyQuestion?.title)
+                    }
                   />
                 </div>
               )}
