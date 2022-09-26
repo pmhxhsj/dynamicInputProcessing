@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import fetchQuestion from "../../constants/surveyQuestion";
-import { ISurvey, ISurveyStep } from "../../constants/surveyQuestion";
+
+import { ISurvey, ISurveyStep } from "../../types/survey";
+import { IForm } from "../../types/form";
 
 import styles from "./SurveyForm.module.scss";
 
@@ -35,6 +37,7 @@ const MoveButton = ({
 const SurveyForm = () => {
   const [page, setPage] = useState(0);
   const [surveyQuestion, setSurveyQuestion] = useState<ISurvey>();
+  const [formData, setFormData] = useState<IForm>({});
   const location = useLocation();
 
   console.log(surveyQuestion);
@@ -52,19 +55,35 @@ const SurveyForm = () => {
     setPage((prev) => prev - 1);
   };
 
+  const onChageValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string
+  ) => {
+    setFormData({
+      ...formData,
+      [key]: e.target.value,
+    });
+  };
+
+  console.log(formData);
+
   return (
     <div className={styles.SurveyForm}>
       <div>
         <h2>{surveyQuestion?.title}</h2>
         <div>
           {surveyQuestion?.steps.map((step: ISurveyStep[], idx: number) => (
-            <form>
+            <form key={idx}>
               {page === idx && (
                 <div>
                   {step.map((item: ISurveyStep) => (
-                    <div>
+                    <div key={item.label}>
                       <div>{item.label}</div>
-                      <input type="text" />
+                      <input
+                        onChange={(e) => onChageValue(e, item.label)}
+                        value={formData[`${item.label}`]}
+                        type="text"
+                      />
                     </div>
                   ))}
                   <MoveButton
