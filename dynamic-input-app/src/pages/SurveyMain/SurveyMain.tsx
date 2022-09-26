@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import fetchSurveyList from "../../constants/surveyList";
-import { ISurveyList } from "../../constants/surveyList";
+import { ISurveyList } from "../../types/survey";
 
 import styles from "./SurveyMain.module.scss";
 

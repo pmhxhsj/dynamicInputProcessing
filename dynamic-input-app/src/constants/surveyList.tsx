@@ -1,7 +1,4 @@
-export interface ISurveyList {
-  id: string;
-  title: string;
-}
+import { ISurveyList } from "../types/survey";
 
 const fetchSurveyList: ISurveyList[] = [
   {

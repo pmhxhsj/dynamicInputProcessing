@@ -1,22 +1,4 @@
-export interface ISurvey {
-  id: string;
-  title: string;
-  steps: {
-    type: string;
-    label: string;
-    validation?: {
-      isRequired: boolean;
-    };
-  }[][];
-}
-
-export interface ISurveyStep {
-  type: string;
-  label: string;
-  validation?: {
-    isRequired: boolean;
-  };
-}
+import { ISurvey } from "../types/survey";
 
 const fetchQuestion: ISurvey[] = [
   {
